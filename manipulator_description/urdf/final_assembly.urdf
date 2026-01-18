@@ -282,31 +282,56 @@
     <limit lower="-1.5708" upper="1.5708" effort="150" velocity="2" />
     <dynamics damping="0.7" friction="0.1" />
   </joint>
-  <!-- End of robot description -->
 
+<!-- ========== ROS2 CONTROL ========== -->
   <ros2_control name="GazeboSystem" type="system">
     <hardware>
       <plugin>gz_ros2_control/GazeboSimSystem</plugin>
     </hardware>
+    
+    <!-- Joint 1 -->
     <joint name="robot_joint1">
-      <command_interface name="position" />
-      <state_interface name="position" />
-      <state_interface name="velocity" />
-      <state_interface name="effort" />
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">1.5708</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
     </joint>
+    
+    <!-- Joint 2 -->
     <joint name="robot_joint2">
-      <command_interface name="position" />
-      <state_interface name="position" />
-      <state_interface name="velocity" />
-      <state_interface name="effort" />
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">1.5708</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
     </joint>
+    
+    <!-- Gripper Joint -->
     <joint name="gripper_joint">
-      <command_interface name="position" />
-      <state_interface name="position" />
-      <state_interface name="velocity" />
-      <state_interface name="effort" />
+      <command_interface name="position">
+        <param name="min">-1.5708</param>
+        <param name="max">1.5708</param>
+      </command_interface>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity"/>
     </joint>
-
+  </ros2_control>
+  
+  <!-- Gazebo ROS2 Control Plugin -->
+  <gazebo>
+    <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <parameters>$(find manipulator_description)/config/controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
   <!-- Gazebo-specific additions -->
   <gazebo reference="base_plate">
     <material>Gazebo/Grey</material>
